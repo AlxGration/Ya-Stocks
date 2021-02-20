@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Ya Stocks</string>
+    <string name="tab_stocks">Stocks</string>
+    <string name="tab_favourite">Favourite</string>
+
+    <string name="search_hint_find_company">Find company or ticker</string>
+    <string name="request_error">Cant execute request</string>
+
+
+
+</resources>
