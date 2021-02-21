@@ -1,11 +1,11 @@
-package com.alex.yastocks.ui.stocks;
+package com.alex.yastocks.ui.main.stocks;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alex.yastocks.ui.main.MainActivity;
 import com.alex.yastocks.R;
 import com.alex.yastocks.models.Stock;
 import com.alex.yastocks.models.StocksListRecyclerAdapter;
@@ -24,7 +25,6 @@ import java.util.ArrayList;
 public class StocksFragment extends Fragment {
 
     StocksViewModel viewModel;
-    StocksListRecyclerAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,15 +33,15 @@ public class StocksFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        //viewModel.detach();
+    public void onStart() {
+        super.onStart();
+        viewModel.startRequesting();// api request MostActiveStocks
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        //viewModel.attach(this);
+    public void onStop() {
+        super.onStop();
+        viewModel.stopRequesting();// api request MostActiveStocks
     }
 
     @Nullable
@@ -53,21 +53,39 @@ public class StocksFragment extends Fragment {
         viewModel.getStocksMutableLiveData().observe(this, new Observer<ArrayList<Stock>>() {
             @Override
             public void onChanged(ArrayList<Stock> stocks) {
-                adapter = new StocksListRecyclerAdapter(stocks);
+                StocksListRecyclerAdapter adapter = new StocksListRecyclerAdapter(stocks);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 recyclerView.setAdapter(adapter);
             }
         });
 
-        TextView tvError = view.findViewById(R.id.tv_error);
+
         viewModel.getErrorMessageMutableLiveData().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String msg) {
-                tvError.setText(msg);
-                tvError.setVisibility(View.VISIBLE);
+                ((MainActivity)getActivity()).showError(msg);
             }
         });
 
+        ProgressBar pBar = view.findViewById(R.id.progressBar);
+        viewModel.getIsLoadingMutableLiveData().observe(this, isLoading->{
+            if (isLoading)
+                pBar.setVisibility(View.VISIBLE);
+            else
+                pBar.setVisibility(View.GONE);
+        });
+
+
+        showStocksListFromDb();
+
         return view;
+    }
+
+    public void showStocksListFromDb(){
+        viewModel.showProgressBarLoading();
+        viewModel.getMostActiveStocksFromDB();
+        // прогрес бар прячется в viewModel
+        // после загрузки данных из (БД)
+        // либо старых, либо после выполненного запроса на сервер
     }
 }

@@ -4,7 +4,12 @@ import androidx.annotation.NonNull;
 
 import com.alex.yastocks.R;
 
-public class Stock {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class Stock  extends RealmObject {
+
+    @PrimaryKey
     private String ticker;
     private String companyName;
     private String currency;
