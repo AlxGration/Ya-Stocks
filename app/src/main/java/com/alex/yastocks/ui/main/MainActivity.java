@@ -8,17 +8,12 @@ import android.os.Bundle;
 import com.alex.yastocks.R;
 import com.alex.yastocks.receivers.NetworkStateChangeReceiver;
 
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
-import com.alex.yastocks.ui.main.stocks.StocksFragment;
-
-import java.util.TimerTask;
 
 import io.realm.Realm;
 
@@ -34,8 +29,7 @@ public class MainActivity extends AppCompatActivity implements NetworkStateChang
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Realm DB INIT (once each time the application runs)
-        Realm.init(this);
+        Realm.init(MainActivity.this);
 
         sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         viewPager = findViewById(R.id.view_pager);

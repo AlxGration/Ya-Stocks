@@ -19,7 +19,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.YaStocks.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" >
+    <style name="Theme.YaStocks.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light">
 
     </style>
 

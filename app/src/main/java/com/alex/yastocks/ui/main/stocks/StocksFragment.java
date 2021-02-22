@@ -1,5 +1,6 @@
 package com.alex.yastocks.ui.main.stocks;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +20,11 @@ import com.alex.yastocks.ui.main.MainActivity;
 import com.alex.yastocks.R;
 import com.alex.yastocks.models.Stock;
 import com.alex.yastocks.models.StocksListRecyclerAdapter;
+import com.alex.yastocks.ui.stock.InfoActivity;
 
 import java.util.ArrayList;
 
-public class StocksFragment extends Fragment {
+public class StocksFragment extends Fragment implements StocksListRecyclerAdapter.IonItemClickListener {
 
     StocksViewModel viewModel;
 
@@ -50,17 +52,18 @@ public class StocksFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_stocks_list, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.rv_stocks_list);
-        viewModel.getStocksMutableLiveData().observe(this, new Observer<ArrayList<Stock>>() {
+        viewModel.getStocksMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Stock>>() {
             @Override
             public void onChanged(ArrayList<Stock> stocks) {
                 StocksListRecyclerAdapter adapter = new StocksListRecyclerAdapter(stocks);
+                adapter.setOnItemClickListener(StocksFragment.this);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 recyclerView.setAdapter(adapter);
             }
         });
 
 
-        viewModel.getErrorMessageMutableLiveData().observe(this, new Observer<String>() {
+        viewModel.getErrorMessageMutableLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String msg) {
                 ((MainActivity)getActivity()).showError(msg);
@@ -68,7 +71,7 @@ public class StocksFragment extends Fragment {
         });
 
         ProgressBar pBar = view.findViewById(R.id.progressBar);
-        viewModel.getIsLoadingMutableLiveData().observe(this, isLoading->{
+        viewModel.getIsLoadingMutableLiveData().observe(getViewLifecycleOwner(), isLoading->{
             if (isLoading)
                 pBar.setVisibility(View.VISIBLE);
             else
@@ -87,5 +90,24 @@ public class StocksFragment extends Fragment {
         // прогрес бар прячется в viewModel
         // после загрузки данных из (БД)
         // либо старых, либо после выполненного запроса на сервер
+    }
+
+    private final int REQUEST_CODE = 111;
+    @Override
+    public void startInfoActivityWith(String ticker, String companyName, boolean isSelected) {
+        Intent intent = new Intent(getContext(), InfoActivity.class);
+        intent.putExtra("isSelected", isSelected);
+        intent.putExtra("ticker", ticker);
+        intent.putExtra("companyName", companyName);
+        startActivityForResult(
+                intent , REQUEST_CODE
+        );
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        viewModel.getMostActiveStocksFromDB();
+        Toast.makeText(getContext(), "onActivityResult", Toast.LENGTH_SHORT).show();
     }
 }

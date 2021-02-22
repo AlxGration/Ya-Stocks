@@ -14,7 +14,7 @@ import com.alex.yastocks.R;
 
 import java.util.ArrayList;
 
-public class StocksListRecyclerAdapter extends RecyclerView.Adapter<StocksListRecyclerAdapter.ViewHolder>{
+public class StocksListRecyclerAdapter extends RecyclerView.Adapter<StocksListRecyclerAdapter.ViewHolder> {
 
     ArrayList<Stock> data;
 
@@ -38,16 +38,12 @@ public class StocksListRecyclerAdapter extends RecyclerView.Adapter<StocksListRe
         // contents of the view with that element
         Stock stock = data.get(position);
 
-        //Log.e("TAG", "onBindViewHolder "+stock.getTicker());
-
         // покрас списка в виде "зебры"
         if (position % 2 == 0){
             holder.setGreyBG();
         }else{
             holder.setWhiteBG();
         }
-
-        //TODO: text formating
 
         holder.tvTicker.setText(stock.getTicker());
         holder.tvCompanyName.setText(stock.getCompanyName());
@@ -71,6 +67,19 @@ public class StocksListRecyclerAdapter extends RecyclerView.Adapter<StocksListRe
                         stock.getPriceChange(),
                         stock.getPriceChangePercent())
         );
+
+        
+        holder.itemView.setTag(position);
+        // i don't know, is it ok?
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    Stock stock = data.get(((int)view.getTag()));
+                    listener.startInfoActivityWith(stock.getTicker(), stock.getCompanyName(), stock.isSelected());
+                }
+            }
+        });
     }
 
     @Override
@@ -78,7 +87,16 @@ public class StocksListRecyclerAdapter extends RecyclerView.Adapter<StocksListRe
         return data.size();
     }
 
+    public static IonItemClickListener listener;
+    public static void setOnItemClickListener(IonItemClickListener lis){
+        listener = lis;
+    }
+    public interface IonItemClickListener{
+        void startInfoActivityWith(String ticker, String companyName, boolean isSelected);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         private final TextView tvTicker;
         private final TextView tvCompanyName;
         private final TextView tvPrice;
@@ -119,31 +137,5 @@ public class StocksListRecyclerAdapter extends RecyclerView.Adapter<StocksListRe
         private void setBlackChange(){
             tvPriceChange.setTextColor(view.getResources().getColor(R.color.black));
         }
-/*
-//TODO: onClick on star in recyclerView ???
-
-            imgStar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (
-                            ((ImageView)view).getDrawable().getConstantState()
-                             ==
-                             view.getResources().getDrawable(R.drawable.ic_star_unselected).getConstantState()
-                    ){
-                        //if star unselected
-                        // => select and add to "best" - list
-                        ((ImageView)view).setImageResource(R.drawable.ic_star_selected);
-                        //TODO: add to "best" - list
-                        //TODO: unselect into stock "best" - list
-                    }else{
-                        ((ImageView)view).setImageResource(R.drawable.ic_star_unselected);
-                        //TODO: remove from "best" - list
-
-                    }
-                }
-            });
-
- */
     }
-
 }

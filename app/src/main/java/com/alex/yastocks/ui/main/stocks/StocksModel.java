@@ -1,6 +1,7 @@
 package com.alex.yastocks.ui.main.stocks;
 
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import com.alex.yastocks.api.RetrofitInstance;
@@ -17,9 +18,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
-import io.realm.RealmConfiguration;
-import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -45,8 +43,12 @@ class StocksModel {
         realm = Realm.getDefaultInstance();
 
         handler = new Handler() {
-            public void handleMessage(android.os.Message msg) {
-                showStocksFromDB();
+            public void handleMessage(Message msg) {
+                if (msg.obj != null){
+                    writeToRealm(((Stock)msg.obj));
+                }else {
+                    showStocksFromDB();
+                }
             }
         };
     }
@@ -113,19 +115,11 @@ class StocksModel {
                             double priceChange = quot.getDouble("regularMarketChange");
                             double priceChangePercent = quot.getDouble("regularMarketChangePercent");
 
-                            realm.executeTransactionAsync(r -> {
-                                Stock stock = new Stock();
-                                stock.setTicker(ticker);
 
-                                stock.setCompanyName(companyName);
-                                stock.setCurrency(currency);
-
-                                stock.setPrice(price);
-                                stock.setPriceChange(priceChange);
-                                stock.setPriceChangePercent(priceChangePercent);
-
-                                r.insertOrUpdate(stock);
-                            });
+                            Stock stock = new Stock(ticker, companyName, price, priceChange, priceChangePercent, currency, false);
+                            Message msg = new Message();
+                            msg.obj = stock;
+                            handler.sendMessage(msg);
                         }
                         //update UI
                         handler.sendEmptyMessage(0);
@@ -154,12 +148,24 @@ class StocksModel {
                 .findAllAsync();
 
         for(Stock stock: results) {
-            Log.e("TAG", "From Realm: "+stock.toString());
+            //Log.e("TAG", "From Realm: "+stock.toString());
             stocksList.add(stock);
         }
 
         if (stocksList.size() > 0)
             viewModel.responseMostWatchedSuccess(stocksList);
+    }
+
+    private void writeToRealm(Stock stock){
+        realm.executeTransactionAsync(t->{
+           // save stocks selection status, if exist
+            Stock result = t.where(Stock.class)
+                   .equalTo("ticker", stock.getTicker())
+                   .findFirst();
+            if (result != null) stock.setSelected(result.isSelected());
+
+            t.insertOrUpdate(stock);
+        });
     }
 
 }
