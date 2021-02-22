@@ -1,13 +1,17 @@
 package com.alex.yastocks.ui.main;
 
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 
 import com.alex.yastocks.R;
+import com.alex.yastocks.models.StocksListRecyclerAdapter;
 import com.alex.yastocks.receivers.NetworkStateChangeReceiver;
+import com.alex.yastocks.ui.stock.InfoActivity;
 
+import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,7 +21,9 @@ import android.widget.TextView;
 
 import io.realm.Realm;
 
-public class MainActivity extends AppCompatActivity implements NetworkStateChangeReceiver.NetworkStateChangeListener{
+public class MainActivity extends AppCompatActivity implements
+        NetworkStateChangeReceiver.NetworkStateChangeListener,
+        StocksListRecyclerAdapter.IonItemClickListener{
 
     ViewPager viewPager;
     SectionsPagerAdapter sectionsPagerAdapter;
@@ -115,6 +121,19 @@ public class MainActivity extends AppCompatActivity implements NetworkStateChang
         }else {
             showError("Network Status: " + isConnected);
         }
+    }
+
+
+    // обработчик нажатия на элемент списка
+    // открывает акнивность информации об акции
+    @Override
+    public void startInfoActivityWith(String ticker, String companyName, boolean isSelected) {
+        Intent intent = new Intent(this, InfoActivity.class);
+        intent.putExtra("isSelected", isSelected);
+        intent.putExtra("ticker", ticker);
+        intent.putExtra("companyName", companyName);
+
+        startActivity(intent);
     }
 
     @Override

@@ -61,7 +61,6 @@ class StocksModel {
                 new TimerTask() {
                     @Override
                     public void run() {
-
                         //Тут отработка метода в отдельном потоке;
                         requestMostActiveStocks();
                     }
@@ -96,7 +95,6 @@ class StocksModel {
                         jsonResponse = response.body().string();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        viewModel.responseError(REQUEST_ERR_MSG);
                         return;
                     }
 
@@ -141,19 +139,14 @@ class StocksModel {
     }
 
     public void showStocksFromDB(){
-        ArrayList<Stock> stocksList = new ArrayList<>();
 
         RealmResults<Stock> results = realm.where(Stock.class)
                 .limit(24)
                 .findAllAsync();
 
-        for(Stock stock: results) {
-            //Log.e("TAG", "From Realm: "+stock.toString());
-            stocksList.add(stock);
-        }
+        ArrayList<Stock> stocksList = new ArrayList<>(results);
 
-        if (stocksList.size() > 0)
-            viewModel.responseMostWatchedSuccess(stocksList);
+        viewModel.responseMostWatchedSuccess(stocksList);
     }
 
     private void writeToRealm(Stock stock){

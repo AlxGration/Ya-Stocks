@@ -6,21 +6,27 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.alex.yastocks.models.Stock;
+
+import java.util.ArrayList;
+
 public class FavouriteViewModel extends ViewModel {
 
-    private MutableLiveData<Integer> mIndex = new MutableLiveData<>();
-    private LiveData<String> mText = Transformations.map(mIndex, new Function<Integer, String>() {
-        @Override
-        public String apply(Integer input) {
-            return "Hello world from section: " + input;
-        }
-    });
+    private final FavouriteModel model;
+    private final MutableLiveData<ArrayList<Stock>> stocksLiveData;
 
-    public void setIndex(int index) {
-        mIndex.setValue(index);
+    public FavouriteViewModel(){
+        stocksLiveData = new MutableLiveData<>();
+        model = new FavouriteModel(this);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public MutableLiveData<ArrayList<Stock>> getFavouriteStocksMutableLiveData() { return stocksLiveData; }
+
+    public void getFavouriteStocksFromDB(){
+        model.showFavouriteStocksFromDB();
+    }
+
+    public void responseFavouriteStocksSuccess(ArrayList<Stock> stocks){
+        stocksLiveData.setValue(stocks);
     }
 }
