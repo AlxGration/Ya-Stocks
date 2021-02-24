@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:text="ticker"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 android:textSize="@dimen/main_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

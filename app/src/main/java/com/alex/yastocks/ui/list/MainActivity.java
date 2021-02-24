@@ -1,4 +1,4 @@
-package com.alex.yastocks.ui.main;
+package com.alex.yastocks.ui.list;
 
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -9,14 +9,18 @@ import android.os.Bundle;
 import com.alex.yastocks.R;
 import com.alex.yastocks.models.StocksListRecyclerAdapter;
 import com.alex.yastocks.receivers.NetworkStateChangeReceiver;
+import com.alex.yastocks.ui.search.SearchActivity;
 import com.alex.yastocks.ui.stock.InfoActivity;
 
-import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import io.realm.Realm;
@@ -96,6 +100,18 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+
+<SearchView
+            android:id="@+id/sv_stocks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_search"
+            android:queryHint="@string/search_hint_find_company"
+            android:iconifiedByDefault="false"
+            android:searchIcon="@drawable/ic_search"
+            android:closeIcon="@drawable/ic_close"
+            android:layout_marginBottom="16dp"
+            />
      */
 
     private void setActiveTab(TextView tv){
@@ -140,5 +156,11 @@ public class MainActivity extends AppCompatActivity implements
     protected void onDestroy() {
         super.onDestroy();
         if (receiver != null) receiver.detach();
+    }
+
+    public void onClickSearch(View view) {
+        Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

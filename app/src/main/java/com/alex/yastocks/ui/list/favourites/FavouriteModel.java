@@ -1,4 +1,4 @@
-package com.alex.yastocks.ui.main.favourites;
+package com.alex.yastocks.ui.list.favourites;
 
 import com.alex.yastocks.models.Stock;
 

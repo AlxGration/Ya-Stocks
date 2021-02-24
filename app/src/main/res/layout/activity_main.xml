@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.MainActivity">
+    tools:context=".ui.list.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -14,20 +14,32 @@
         android:paddingTop="@dimen/padding"
         android:theme="@style/Theme.YaStocks.AppBarOverlay">
 
-        <SearchView
-            android:id="@+id/svStocks"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:background="@drawable/bg_search"
-            android:queryHint="@string/search_hint_find_company"
-            android:iconifiedByDefault="false"
-            android:searchIcon="@drawable/ic_search"
-            android:closeIcon="@drawable/ic_close"
+            android:orientation="horizontal"
+            app:layout_scrollFlags="enterAlways|scroll"
             android:layout_marginBottom="16dp"
-            app:layout_scrollFlags="enterAlways|scroll"/>
+            android:onClick="onClickSearch">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_search"
+                android:scaleType="centerInside"
+                android:layout_marginStart="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textSize="18sp"
+                android:hint="@string/search_hint_find_company"
+                android:layout_marginStart="14dp"/>
+        </LinearLayout>
 
         <include
-            layout="@layout/main_tabs_layout"/>
+            layout="@layout/main_tabs_layout" />
 
         <TextView
             android:id="@+id/tv_error"

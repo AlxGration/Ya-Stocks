@@ -1,4 +1,4 @@
-package com.alex.yastocks.ui.main;
+package com.alex.yastocks.ui.list;
 
 import android.content.Context;
 
@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.alex.yastocks.ui.main.favourites.FavouriteFragment;
-import com.alex.yastocks.ui.main.stocks.StocksFragment;
+import com.alex.yastocks.ui.list.favourites.FavouriteFragment;
+import com.alex.yastocks.ui.list.stocks.StocksFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to

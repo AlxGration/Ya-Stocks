@@ -1,4 +1,4 @@
-package com.alex.yastocks.ui.main.stocks;
+package com.alex.yastocks.ui.list.stocks;
 
 import android.os.Handler;
 import android.os.Message;
@@ -146,7 +146,8 @@ class StocksModel {
 
         ArrayList<Stock> stocksList = new ArrayList<>(results);
 
-        viewModel.responseMostWatchedSuccess(stocksList);
+        if (stocksList.size() > 0)
+            viewModel.responseMostWatchedSuccess(stocksList);
     }
 
     private void writeToRealm(Stock stock){

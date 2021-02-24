@@ -8,6 +8,23 @@
     <string name="title_activity_info">InfoActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="popular_requests">Popular requests</string>
+    <string name="you_ve_searched_for_this">You’ve searched for this</string>
+    <string name="show_more">Show more</string>
 
+
+    <string-array name="popular_stocks">
+        <item>Apple</item>
+        <item>Yandex</item>
+        <item>Amazon</item>
+        <item>Google</item>
+        <item>Tesla</item>
+        <item>Visa</item>
+        <item>Facebook</item>
+        <item>Alibaba</item>
+        <item>Ozon</item>
+        <item>Microsoft</item>
+        <item>QIWI</item>
+    </string-array>
 
 </resources>

@@ -1,9 +1,6 @@
-package com.alex.yastocks.ui.main.favourites;
+package com.alex.yastocks.ui.list.favourites;
 
-import androidx.arch.core.util.Function;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.alex.yastocks.models.Stock;

@@ -1,4 +1,4 @@
-package com.alex.yastocks.ui.main.stocks;
+package com.alex.yastocks.ui.list.stocks;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;

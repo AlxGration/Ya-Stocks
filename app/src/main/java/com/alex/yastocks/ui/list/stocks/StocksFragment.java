@@ -1,8 +1,6 @@
-package com.alex.yastocks.ui.main.stocks;
-
+package com.alex.yastocks.ui.list.stocks;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alex.yastocks.ui.main.MainActivity;
+import com.alex.yastocks.ui.list.MainActivity;
 import com.alex.yastocks.R;
 import com.alex.yastocks.models.Stock;
 import com.alex.yastocks.models.StocksListRecyclerAdapter;
