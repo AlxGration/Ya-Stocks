@@ -1,4 +1,4 @@
-package com.alex.yastocks.models;
+package com.alex.yastocks.db;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -39,8 +39,6 @@ public class PrefsManager {
             if (s.isEmpty()) continue;
             lastSearches.append("/").append(s);
         }
-
-        //Log.e("TAG", "saveLastSearchString "+lastSearches.toString());
 
         editor.putString(LAST_SEARCHES, lastSearches.toString());
         editor.apply();

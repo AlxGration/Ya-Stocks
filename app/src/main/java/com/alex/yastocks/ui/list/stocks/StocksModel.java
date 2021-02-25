@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.alex.yastocks.api.RetrofitInstance;
 import com.alex.yastocks.api.IStocks;
+import com.alex.yastocks.db.DBManager;
+import com.alex.yastocks.db.RealmManager;
 import com.alex.yastocks.models.Stock;
 
 import org.json.JSONArray;
@@ -17,8 +19,6 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +28,7 @@ import retrofit2.Retrofit;
 class StocksModel {
 
     private final String REQUEST_ERR_MSG = "Ошибка запроса";
-    private final Realm realm;
+    private final DBManager db;
 
     private final StocksViewModel viewModel;
     private final Retrofit retrofit;
@@ -40,7 +40,7 @@ class StocksModel {
     StocksModel (StocksViewModel viewModel){
         this.viewModel = viewModel;
         retrofit = RetrofitInstance.getInstance();
-        realm = Realm.getDefaultInstance();
+        db = new RealmManager();
 
         handler = new Handler() {
             public void handleMessage(Message msg) {
@@ -139,27 +139,14 @@ class StocksModel {
     }
 
     public void showStocksFromDB(){
-
-        RealmResults<Stock> results = realm.where(Stock.class)
-                .limit(24)
-                .findAllAsync();
-
-        ArrayList<Stock> stocksList = new ArrayList<>(results);
+        ArrayList<Stock> stocksList = db.getFirst24Stocks();
 
         if (stocksList.size() > 0)
             viewModel.responseMostWatchedSuccess(stocksList);
     }
 
     private void writeToRealm(Stock stock){
-        realm.executeTransactionAsync(t->{
-           // save stocks selection status, if exist
-            Stock result = t.where(Stock.class)
-                   .equalTo("ticker", stock.getTicker())
-                   .findFirst();
-            if (result != null) stock.setSelected(result.isSelected());
-
-            t.insertOrUpdate(stock);
-        });
+        db.writeStock(stock);
     }
 
 }

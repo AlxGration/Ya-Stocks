@@ -1,31 +1,22 @@
 package com.alex.yastocks.ui.list.favourites;
 
-import com.alex.yastocks.models.Stock;
-
-import java.util.ArrayList;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
+import com.alex.yastocks.db.DBManager;
+import com.alex.yastocks.db.RealmManager;
 
 public class FavouriteModel {
 
-    private final Realm realm;
+    private final DBManager db;
     private final FavouriteViewModel viewModel;
 
     FavouriteModel(FavouriteViewModel viewModel){
         this.viewModel = viewModel;
-        realm = Realm.getDefaultInstance();
+        db = new RealmManager();
     }
 
     public void showFavouriteStocksFromDB(){
-
-        RealmResults<Stock> results = realm.where(Stock.class)
-                .equalTo("isSelected", true)
-                .findAllAsync();
-
-        ArrayList<Stock> stocksList = new ArrayList<>(results);
-
-        viewModel.responseFavouriteStocksSuccess(stocksList);
+        viewModel.responseFavouriteStocksSuccess(
+                db.getSelectedStocks()
+        );
     }
 
 }

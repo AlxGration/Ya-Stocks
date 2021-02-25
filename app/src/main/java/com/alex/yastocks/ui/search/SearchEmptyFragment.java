@@ -1,6 +1,4 @@
-package com.alex.yastocks.ui.search.empty;
-
-
+package com.alex.yastocks.ui.search;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,34 +10,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alex.yastocks.R;
-import com.alex.yastocks.models.PrefsManager;
-import com.alex.yastocks.ui.search.SearchActivity;
+import com.alex.yastocks.db.PrefsManager;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-
-
 public class SearchEmptyFragment extends Fragment implements View.OnClickListener{
-
-  
-    private ChipGroup cgPopRow_1, cgPopRow_2, cgTempRow_1, cgTempRow_2;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_empty_search, container, false);
-        cgPopRow_1 = view.findViewById(R.id.chip_group_popular_1);
-        cgPopRow_2 = view.findViewById(R.id.chip_group_popular_2);
+        ChipGroup cgPopRow_1 = view.findViewById(R.id.chip_group_popular_1);
+        ChipGroup cgPopRow_2 = view.findViewById(R.id.chip_group_popular_2);
 
-        cgTempRow_1 = view.findViewById(R.id.chip_group_temp_1);
-        cgTempRow_2 = view.findViewById(R.id.chip_group_temp_2);
+        ChipGroup cgTempRow_1 = view.findViewById(R.id.chip_group_temp_1);
+        ChipGroup cgTempRow_2 = view.findViewById(R.id.chip_group_temp_2);
 
         // возьмем список популярных акций из строковых ресурсов :) и отобразим его в виде Chip'ов
         fillChipGroup(cgPopRow_1, cgPopRow_2, getResources().getStringArray(R.array.popular_stocks));

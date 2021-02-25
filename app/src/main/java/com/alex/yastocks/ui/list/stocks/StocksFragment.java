@@ -55,12 +55,12 @@ public class StocksFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_stocks_list, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.rv_stocks_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         viewModel.getStocksMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Stock>>() {
             @Override
             public void onChanged(ArrayList<Stock> stocks) {
                 StocksListRecyclerAdapter adapter = new StocksListRecyclerAdapter(stocks);
                 adapter.setOnItemClickListener(((MainActivity)getActivity()));
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 recyclerView.setAdapter(adapter);
             }
         });

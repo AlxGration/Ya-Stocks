@@ -15,12 +15,8 @@ import com.alex.yastocks.ui.stock.InfoActivity;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import io.realm.Realm;
@@ -41,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements
 
         Realm.init(MainActivity.this);
 
-        sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
 
@@ -84,35 +80,6 @@ public class MainActivity extends AppCompatActivity implements
     public void hideError(){
         tvError.setVisibility(View.GONE);
     }
-
-
-    // вызывается в случае включения интернета
-    /*
-    private void updateStocksList(){
-        Fragment fragment = getSupportFragmentManager()
-                .findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + 0);
-
-        if (fragment instanceof StocksFragment){
-            ((StocksFragment)fragment).showStocksListFromDb();
-        }else{
-            Log.e("TAG", "cant update stocks list, 'cause fragment is "
-                    + fragment.toString()+" but expected StocksFragment at position 0");
-        }
-    }
-
-
-<SearchView
-            android:id="@+id/sv_stocks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_search"
-            android:queryHint="@string/search_hint_find_company"
-            android:iconifiedByDefault="false"
-            android:searchIcon="@drawable/ic_search"
-            android:closeIcon="@drawable/ic_close"
-            android:layout_marginBottom="16dp"
-            />
-     */
 
     private void setActiveTab(TextView tv){
         if (tv == null) return;;

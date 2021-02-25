@@ -54,13 +54,13 @@ public class InfoActivity extends AppCompatActivity {
         tvTicker = findViewById(R.id.tv_ticker);
         tvCompanyName = findViewById(R.id.tv_company_name);
         imgSelector = findViewById(R.id.img_selector);
-        viewModel.getIsSelectedMutableLiveData().observe(this, this::setSelectionStatus);
+        viewModel.getIsSelectedMutableLiveData().observe(this, this::setSelectionStatusImage);
 
         String ticker = getIntent().getStringExtra("ticker");
         String companyName = getIntent().getStringExtra("companyName");
         boolean isSelected = getIntent().getBooleanExtra("isSelected", false);
         viewModel.rememberTicker(ticker);
-        setSelectionStatus(isSelected);
+        setSelectionStatusImage(isSelected);
         tvTicker.setText(ticker);
         tvCompanyName.setText(companyName);
 
@@ -74,7 +74,7 @@ public class InfoActivity extends AppCompatActivity {
     }
 
     public void hideError(){ tvError.setVisibility(View.GONE); }
-    public void setSelectionStatus(boolean isSelected){
+    public void setSelectionStatusImage(boolean isSelected){
         imgSelector.setImageResource(
                 isSelected?
                         R.drawable.ic_star_selected:
