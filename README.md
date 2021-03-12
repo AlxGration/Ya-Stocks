@@ -12,6 +12,7 @@ Android application (testing task for Yandex MDS)
 - Для запросов используется Retrofit2
 - Результаты запросов сохраняются в БД Realm. (можно зайти в приложение без интернета)
 - Запрос на обновление котировок каждые 10 сек (через Timer)
+- Для отображения графика используется библиотека [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
 
 
 Экран 1 (Главный):
