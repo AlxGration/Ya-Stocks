@@ -1,16 +1,20 @@
 <resources>
     <string name="app_name">Ya Stocks</string>
+
     <string name="tab_stocks">Stocks</string>
     <string name="tab_favourite">Favourite</string>
+    <string name="tab_chart">Chart</string>
+    <string name="tab_summary">Summary</string>
 
     <string name="search_hint_find_company">Find company or ticker</string>
     <string name="request_error">Cant execute request</string>
     <string name="title_activity_info">InfoActivity</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
     <string name="popular_requests">Popular requests</string>
     <string name="you_ve_searched_for_this">You’ve searched for this</string>
     <string name="show_more">Show more</string>
+    <string name="title_county">County</string>
+    <string name="title_sector">Sector</string>
+    <string name="buy_for">Buy for</string>
 
 
     <string-array name="popular_stocks">

@@ -1,30 +1,55 @@
 package com.alex.yastocks.db;
 
+import com.alex.yastocks.models.ChartPoint;
 import com.alex.yastocks.models.Stock;
+import com.alex.yastocks.models.StockSummary;
 
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
 
 import io.realm.Case;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
 public class RealmManager extends DBManager{
 
-    private final Realm realm = Realm.getDefaultInstance();
 
-    private enum STOCK{
+    private final RealmConfiguration config = new RealmConfiguration.Builder()
+            .name("YaStocks.realm")
+            .schemaVersion(2)
+            .migration(new MyRealmMigration())
+            .build();
+    private final Realm realm = Realm.getInstance(config);
+
+    private enum FLAGS {
+        ticker,
         isSelected,
         companyName,
-        ticker,
+        interval,
+        seconds,
     }
 
     @Override
     public ArrayList<Stock> getSelectedStocks() {
         RealmResults<Stock> results = realm.where(Stock.class)
-                .equalTo(STOCK.isSelected.name(), true)
+                .equalTo(FLAGS.isSelected.name(), true)
                 .findAllAsync();
         return new ArrayList<>(results);
+    }
+
+    @Override
+    public TreeSet<ChartPoint> getStockChartPoints(String ticker, String interval, int startTime) {
+        RealmResults<ChartPoint> results = realm.where(ChartPoint.class)
+                .equalTo(FLAGS.ticker.name(), ticker)
+                .and()
+                .equalTo(FLAGS.interval.name(), interval)
+                .and()
+                .greaterThanOrEqualTo(FLAGS.seconds.name(), startTime)
+                .findAllAsync();
+        return new TreeSet<>(results);
     }
 
     @Override
@@ -41,10 +66,10 @@ public class RealmManager extends DBManager{
         name = name+"*";
         return new ArrayList<>(
                 realm.where(Stock.class)
-                    .like(STOCK.companyName.name(), name, Case.INSENSITIVE)
+                    .like(FLAGS.companyName.name(), name, Case.INSENSITIVE)
                     .or()
-                    .like(STOCK.ticker.name(), name, Case.INSENSITIVE)
-                    .sort(STOCK.companyName.name(), Sort.ASCENDING)
+                    .like(FLAGS.ticker.name(), name, Case.INSENSITIVE)
+                    .sort(FLAGS.companyName.name(), Sort.ASCENDING)
                 .findAllAsync()
         );
     }
@@ -54,7 +79,7 @@ public class RealmManager extends DBManager{
         realm.executeTransactionAsync(t->{
             // save stocks selection status, if exist
             Stock result = t.where(Stock.class)
-                    .equalTo(STOCK.ticker.name(), stock.getTicker())
+                    .equalTo(FLAGS.ticker.name(), stock.getTicker())
                     .findFirst();
             if (result != null) stock.setSelected(result.isSelected());
 
@@ -63,9 +88,30 @@ public class RealmManager extends DBManager{
     }
 
     @Override
+    public void writeStockSummary(StockSummary stockSummary) {
+        realm.executeTransactionAsync(t->{
+            t.insertOrUpdate(stockSummary);
+        });
+    }
+
+    @Override
+    public void writeStockChartPoints(Set<ChartPoint> stockSummary) {
+        realm.executeTransactionAsync(t->{
+            t.insertOrUpdate(stockSummary);
+        });
+    }
+
+    @Override
     public Stock getStock(String ticker) {
         return realm.where(Stock.class)
-                .equalTo(STOCK.ticker.name(), ticker)
+                .equalTo(FLAGS.ticker.name(), ticker)
+                .findFirst();
+    }
+
+    @Override
+    public StockSummary getStockSummary(String ticker) {
+        return realm.where(StockSummary.class)
+                .equalTo(FLAGS.ticker.name(), ticker)
                 .findFirst();
     }
 
@@ -75,7 +121,7 @@ public class RealmManager extends DBManager{
         realm.executeTransactionAsync(t -> {
 
             Stock stock = t.where(Stock.class)
-                    .equalTo(STOCK.ticker.name(), ticker)
+                    .equalTo(FLAGS.ticker.name(), ticker)
                     .findFirst();
             boolean isSelected = stock.isSelected();
             stock.setSelected(!isSelected);

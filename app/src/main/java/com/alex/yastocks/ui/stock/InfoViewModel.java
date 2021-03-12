@@ -1,7 +1,5 @@
 package com.alex.yastocks.ui.stock;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -10,7 +8,6 @@ public class InfoViewModel extends ViewModel {
 
     private final MutableLiveData<String> errorMessage;
     private final MutableLiveData<Boolean> isSelected;
-
     private final InfoModel model;
     private String ticker;
 
@@ -31,7 +28,6 @@ public class InfoViewModel extends ViewModel {
     }
 
     public void selectionChanged(boolean selected){
-        Log.e("TAG", "selectionChanged "+ selected);
         isSelected.setValue(selected);
     }
 }

@@ -1,5 +1,7 @@
 package com.alex.yastocks.models;
 
+import android.util.Log;
+
 import java.text.DecimalFormat;
 
 public class CurrencyFormatter {
@@ -16,7 +18,7 @@ public class CurrencyFormatter {
         return "add currency";
     }
 
-    public static String formatWithPersent(String currency, double price, double percent){
+    public static String formatWithPercent(String currency, double price, double percent){
         if (currency == null) return "format error";
 
         char sign = ' ';
@@ -45,10 +47,14 @@ public class CurrencyFormatter {
 
     private static String priceToString(Double price) {
         String toShow = priceWithoutDecimal(price);
+        return toShow;
+        /*
         if (toShow.indexOf(".") > 0) {
             return priceWithDecimal(price);
         } else {
             return toShow;
         }
+
+         */
     }
 }

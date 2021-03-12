@@ -73,7 +73,7 @@ public class StocksFragment extends Fragment {
             }
         });
 
-        ProgressBar pBar = view.findViewById(R.id.progressBar);
+        ProgressBar pBar = view.findViewById(R.id.progress_bar);
         viewModel.getIsLoadingMutableLiveData().observe(getViewLifecycleOwner(), isLoading->{
             if (isLoading)
                 pBar.setVisibility(View.VISIBLE);

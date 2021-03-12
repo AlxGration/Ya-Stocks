@@ -1,5 +1,8 @@
 # Ya Stocks
 
+![one](Screens/008_full.png)
+
+
 Android application (testing task for Yandex MDS)
 
 ## Краткие факты
@@ -18,10 +21,16 @@ Android application (testing task for Yandex MDS)
 - Во фрагментах Stocks и Favourite используется RecyclerView c кастомным адаптером и подпиской на LiveData.
 
 
-Экран 2 (Информация об акции): (в разработке)
+Экран 2 (Информация об акции):
 
 - тут можно добавить акцию в избранное
 - по разметке аналогичен 1-ому экрану
+- Фрагмент Chart:
+	- отображает график, можно выбрать интервал (день(шаг 5мин), неделя(шаг 30мин), месяц(шаг 1день), год(шаг 1неделя))
+- Фрагмент Summary:
+	- описание компании
+	- страна эмитента
+	- сектор экономики
 
 
 Экран 3 (Поиск):
@@ -41,6 +50,16 @@ BaseUrl = https://mboum.com/api/v1/
 
 Токен передается в хэдере запроса с ключом X-Mboum-Secret
 
-- Получение самых торгуемых котировок: 
-    
-      MostActive (co/collections/?list=most_actives)
+
+1. **GET co/collections/?list=most_actives - Получение самых торгуемых котировок**
+
+
+2. **GET qu/quote/profile/ - Информация об эмитенте**
+
+		- symbol: string
+
+3. **GET hi/history/ - Исторические данные для графика**
+
+		- symbol: string
+		- interval: string	| 5m, 30m, 1d, 1w
+		- diffandsplits: boolean

@@ -11,10 +11,8 @@ import com.alex.yastocks.db.RealmManager;
 import com.alex.yastocks.models.Stock;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,7 +25,7 @@ import retrofit2.Retrofit;
 
 class StocksModel {
 
-    private final String REQUEST_ERR_MSG = "Ошибка запроса";
+    private final int ERROR_FLAG = 1;
     private final DBManager db;
 
     private final StocksViewModel viewModel;
@@ -44,6 +42,9 @@ class StocksModel {
 
         handler = new Handler() {
             public void handleMessage(Message msg) {
+                if (msg.what == ERROR_FLAG){
+                    viewModel.responseError("Request error");
+                }
                 if (msg.obj != null){
                     writeToRealm(((Stock)msg.obj));
                 }else {
@@ -93,12 +94,7 @@ class StocksModel {
                 if (response.isSuccessful()) {
                     try {
                         jsonResponse = response.body().string();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        return;
-                    }
 
-                    try {
                         JSONObject fullRespond = new JSONObject(jsonResponse);
                         JSONArray quotes = fullRespond.getJSONArray("quotes");
 
@@ -122,17 +118,19 @@ class StocksModel {
                         //update UI
                         handler.sendEmptyMessage(0);
                         Log.e("TAG", "StocksModel requestMostActiveStocks end");
-                        //Log.e("TAG", "json MostActives : "+ jsonResponse);
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
+                        handler.sendEmptyMessage(ERROR_FLAG);
                         e.printStackTrace();
                     }
                 } else {
+                    handler.sendEmptyMessage(ERROR_FLAG);
                     Log.e("TAG", "StocksModel request not success");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                handler.sendEmptyMessage(ERROR_FLAG);
                 Log.e("TAG", "StocksModel onFailure: " + t.getMessage());
             }
         });

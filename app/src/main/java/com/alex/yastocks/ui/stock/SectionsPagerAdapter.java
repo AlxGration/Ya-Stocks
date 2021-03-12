@@ -9,7 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.alex.yastocks.R;
-import com.alex.yastocks.ui.stock.ui.main.PlaceholderFragment;
+import com.alex.yastocks.ui.stock.chart.ChartFragment;
+import com.alex.yastocks.ui.stock.summary.SummaryFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -18,19 +19,27 @@ import com.alex.yastocks.ui.stock.ui.main.PlaceholderFragment;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_chart, R.string.tab_summary};
     private final Context mContext;
+    private final String ticker;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm) {
+    public SectionsPagerAdapter(Context context, String ticker, FragmentManager fm) {
         super(fm);
         mContext = context;
+        this.ticker = ticker;
     }
 
     @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceholderFragment.newInstance(position + 1);
+        switch (position){
+            case 0:
+                return new ChartFragment(ticker);
+            case 1:
+            default:
+                return new SummaryFragment(ticker);
+        }
     }
 
     @Nullable

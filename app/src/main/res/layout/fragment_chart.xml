@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingEnd="@dimen/padding"
+    android:paddingStart="@dimen/padding">
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chart"
+        android:textColor="@color/black"
+        android:textSize="@dimen/huge_text_size"
+        android:textStyle="bold"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_price_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chart"
+        android:textSize="@dimen/sub_text_size"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_price" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_price_change"
+        android:visibility="gone"/>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/line_chart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_price_change"
+        app:layout_constraintBottom_toTopOf="@id/rg_interval"/>
+
+        <RadioGroup
+            android:id="@+id/rg_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/btn_buy"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="52dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rb_day"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:textSize="@dimen/sub_text_size"
+                android:text="D"
+                android:layout_marginRight="5dp"
+                android:checked="true"
+                android:gravity="center"
+                android:button="@android:color/transparent"
+                android:background="@drawable/bg_radio_btn"
+                android:textColor="@color/text_radio_btn"/>
+            <RadioButton
+                android:id="@+id/rb_week"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:textSize="@dimen/sub_text_size"
+                android:text="W"
+                android:layout_marginRight="5dp"
+                android:gravity="center"
+                android:button="@android:color/transparent"
+                android:background="@drawable/bg_radio_btn"
+                android:textColor="@color/text_radio_btn"/>
+            <RadioButton
+                android:id="@+id/rb_month"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:textSize="@dimen/sub_text_size"
+                android:text="M"
+                android:layout_marginRight="5dp"
+                android:gravity="center"
+                android:button="@android:color/transparent"
+                android:background="@drawable/bg_radio_btn"
+                android:textColor="@color/text_radio_btn"/>
+            <RadioButton
+                android:id="@+id/rb_year"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:textSize="@dimen/sub_text_size"
+                android:text="1Y"
+                android:layout_marginRight="5dp"
+                android:gravity="center"
+                android:button="@android:color/transparent"
+                android:background="@drawable/bg_radio_btn"
+                android:textColor="@color/text_radio_btn"/>
+        </RadioGroup>
+    <Button
+        android:id="@+id/btn_buy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:text="@string/buy_for"
+        style="@style/BlackButton"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

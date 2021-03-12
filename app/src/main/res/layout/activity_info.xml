@@ -16,8 +16,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            app:layout_scrollFlags="enterAlways|scroll">
+            android:layout_height="?actionBarSize">
             <ImageButton
                 android:layout_width="22dp"
                 android:layout_height="22dp"
@@ -73,7 +72,13 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary" />
+            android:background="?attr/colorPrimary"
+            app:tabSelectedTextColor="@color/black"
+            app:tabGravity="start"
+            app:tabMode="scrollable"
+            app:tabTextAppearance="@style/MyTabTextAppearance"
+            app:tabIndicatorColor="@color/white"
+            app:tabTextColor="@color/grey"/>
 
         <TextView
             android:id="@+id/tv_error"

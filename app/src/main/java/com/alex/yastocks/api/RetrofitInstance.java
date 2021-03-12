@@ -16,14 +16,14 @@ public abstract class RetrofitInstance {
 
     //TODO:: uncomment for use Api_Key
 
-    private final String API_KEY = "NM1l64ppmlniWG8Oy4KpvYH1lnVEUypg0nevOmvqN4gityGaInE1nOZ5r7Bd";
+    private static final String API_KEY = "NM1l64ppmlniWG8Oy4KpvYH1lnVEUypg0nevOmvqN4gityGaInE1nOZ5r7Bd";
     //Header key:  X-Mboum-Secret:
 
     private static final String BASE_URL = "https://mboum.com/api/v1/";
 
     private static Retrofit retrofit;
 
-    private OkHttpClient.Builder getHttpClient(){
+    private static OkHttpClient.Builder getHttpClient(){
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.addInterceptor(new Interceptor() {
             @Override
@@ -44,7 +44,7 @@ public abstract class RetrofitInstance {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
-                    //.client(getHttpClient().build())
+                    .client(getHttpClient().build())
                     .build();
         }
         return retrofit;

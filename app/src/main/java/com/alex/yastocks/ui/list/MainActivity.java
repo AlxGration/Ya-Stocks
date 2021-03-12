@@ -25,10 +25,10 @@ public class MainActivity extends AppCompatActivity implements
         NetworkStateChangeReceiver.NetworkStateChangeListener,
         StocksListRecyclerAdapter.IonItemClickListener{
 
-    ViewPager viewPager;
-    SectionsPagerAdapter sectionsPagerAdapter;
-    TextView tvStocks, tvFavourites, tvError;
-    NetworkStateChangeReceiver receiver;
+    private ViewPager viewPager;
+    private SectionsPagerAdapter sectionsPagerAdapter;
+    private TextView tvStocks, tvFavourites, tvError;
+    private NetworkStateChangeReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +98,10 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onNetworkStateChanged(boolean isConnected) {
-        Log.e("TAG", "onNetworkStateChanged "+isConnected);
         if (isConnected) {
             hideError();
         }else {
-            showError("Network Status: " + isConnected);
+            showError("Network Status: false" );
         }
     }
 

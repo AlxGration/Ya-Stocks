@@ -1,6 +1,5 @@
 package com.alex.yastocks.models;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +61,7 @@ public class StocksListRecyclerAdapter extends RecyclerView.Adapter<StocksListRe
 
 
         holder.tvPriceChange.setText(
-                CurrencyFormatter.formatWithPersent(
+                CurrencyFormatter.formatWithPercent(
                         stock.getCurrency(),
                         stock.getPriceChange(),
                         stock.getPriceChangePercent())

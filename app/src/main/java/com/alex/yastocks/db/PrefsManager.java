@@ -25,8 +25,6 @@ public class PrefsManager {
         * lastSearches: Apple Inc/Yandex/MOMO/
         * */
 
-        //TODO: переделать
-
         editor = sp.edit();
         StringBuilder lastSearches = new StringBuilder(str);
         String[] result = sp.getString(LAST_SEARCHES, "").split("/");
